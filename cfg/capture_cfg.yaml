@@ -1,5 +1,5 @@
 camera:
-  index: 0
+  index: 1  # 0=노트북 내장 카메라, 1 이상=USB 카메라 (환경에 따라 다름)
   resolution:
     width: 1920
     height: 1080
@@ -11,7 +11,7 @@ camera:
 ocr:
   engine: "paddleocr"  # Default OCR Engine (PaddleOCR)
   languages: ['ko', 'en']
-  gpu: true
+  gpu: false
   paragraph: true
   orientation_classify: false  # Set to true to auto-rotate pages (can cause 180-deg flip bug)
   doc_unwarping: false 
@@ -67,4 +67,4 @@ layout:
 
 # Development & Offline Testing Settings
 development:
-  reprocess_latest: true  # If true, re-run OCR & crop pipeline on the latest captured raw.png instead of camera stream
+  reprocess_latest: false  # If true, re-run OCR & crop pipeline on the latest captured raw.png instead of camera stream

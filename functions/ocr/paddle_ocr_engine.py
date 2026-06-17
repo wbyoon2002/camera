@@ -27,13 +27,16 @@ class PaddleOCREngine(OCREngine):
         use_doc_unwarping = ocr_cfg.get('doc_unwarping', False)
         
         # Note: Model path is handled via HOME environment variable set in pipeline.py/ocr.py
+        # enable_mkldnn=False: Paddle 3.x의 oneDNN(MKL-DNN) + PIR 실행기 조합에서 발생하는
+        # "ConvertPirAttribute2RuntimeAttribute not support" 크래시를 우회하기 위해 비활성화.
         self.ocr = PaddleOCR(
-            use_textline_orientation=True, 
+            use_textline_orientation=True,
             lang=lang,
             use_doc_orientation_classify=use_orientation,
             use_doc_unwarping=use_doc_unwarping,
             device=device_str,
             cpu_threads=1,  # Set to 1 to avoid potential OpenMP multi-threading deadlocks on macOS CPU
+            enable_mkldnn=False,
         )
         self.last_preprocessed_image = None
 

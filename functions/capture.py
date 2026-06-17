@@ -194,7 +194,13 @@ class WebcamCapturer:
             return
 
         print(f"Opening camera index {self.camera_index}...")
-        cap = cv2.VideoCapture(self.camera_index)
+        # Windows에서는 USB 카메라 인식이 더 안정적인 DirectShow 백엔드를 우선 사용
+        if sys.platform == "win32":
+            cap = cv2.VideoCapture(self.camera_index, cv2.CAP_DSHOW)
+            if not cap.isOpened():
+                cap = cv2.VideoCapture(self.camera_index)  # MSMF 폴백
+        else:
+            cap = cv2.VideoCapture(self.camera_index)
 
         # Set resolution
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
